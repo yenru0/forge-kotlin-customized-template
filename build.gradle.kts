@@ -3,13 +3,38 @@ import org.spongepowered.asm.gradle.plugins.struct.DynamicProperties
 import java.text.SimpleDateFormat
 import java.util.*
 
+val kotlin_version: String by extra
+val jvm_version: String by extra
+
+val group: String by extra
+val mod_version: String by extra
+
+val mod_id: String by extra
+val mod_name: String by extra
+val mod_license: String by extra
+val mod_authors: String by extra
+val mod_description: String by extra
+
+val minecraft_version: String by extra
+val minecraft_version_range: String by extra
+val forge_version: String by extra
+val forge_version_range: String by extra
+val loader_version_range: String by extra
+val mapping_channel: String by extra
+val mapping_version: String by extra
+
+
+
 buildscript {
+    val kotlin_version = project.property("kotlin_version")
+    extra.set("kotlin_version", kotlin_version)
     repositories {
         mavenCentral()
+        maven(url = "https://maven.minecraftforge.net/")
         maven("https://maven.fabricmc.net/")
     }
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.0-Beta")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlin_version}")
         classpath("org.spongepowered:mixingradle:0.7.+")
     }
 }
@@ -17,25 +42,21 @@ buildscript {
 apply(plugin = "kotlin")
 apply(plugin = "org.spongepowered.mixin")
 
+
+
 plugins {
+
     eclipse
     idea
     `maven-publish`
     id("net.minecraftforge.gradle") version "[6.0,6.2)"
-    id("org.jetbrains.kotlin.jvm") version "1.8.22"
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.8.22"
+    kotlin("jvm") version "1.8.22"
+    kotlin("plugin.serialization") version "1.8.22"
 }
 
-group = "com.pleahmacaka"
-version = "1.20-0.1.0"
 
-val modid = "examplemod"
-val vendor = "pleahmacaka"
 
-val minecraftVersion = "1.20.2"
-val forgeVersion = "48.0.20"
-
-java.toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+java.toolchain.languageVersion.set(JavaLanguageVersion.of(jvm_version.toInt()))
 
 println(
     "Java: ${System.getProperty("java.version")} JVM: ${System.getProperty("java.vm.version")}(${
@@ -46,7 +67,7 @@ println(
 )
 
 minecraft {
-    mappings("official", minecraftVersion)
+    mappings(mapping_channel, minecraft_version)
     accessTransformer(file("src/main/resources/META-INF/accesstransformer.cfg"))
 
     runs.all {
@@ -54,10 +75,10 @@ minecraft {
             workingDirectory(project.file("run"))
             property("forge.logging.markers", "REGISTRIES")
             property("forge.logging.console.level", "debug")
-            property("forge.enabledGameTestNamespaces", modid)
+            property("forge.enabledGameTestNamespaces", mod_id)
             property("terminal.jline", "true")
             mods {
-                create(modid) {
+                create(mod_id) {
                     source(sourceSets.main.get())
                 }
             }
@@ -67,8 +88,8 @@ minecraft {
     runs.run {
         create("client") {
             property("log4j.configurationFile", "log4j2.xml")
-            jvmArg("-XX:+AllowEnhancedClassRedefinition")
-            args("--username", "Player")
+            //jvmArg("-XX:+AllowEnhancedClassRedefinition")
+            args("--username", "yenru0_test")
         }
 
         create("server") {}
@@ -77,7 +98,7 @@ minecraft {
             workingDirectory(project.file("run"))
             args(
                 "--mod",
-                modid,
+                mod_id,
                 "--all",
                 "--output",
                 file("src/generated/resources/"),
@@ -103,7 +124,7 @@ fun getProperty(name: String): String {
 }
 
 dependencies {
-    minecraft("net.minecraftforge:forge:$minecraftVersion-$forgeVersion")
+    minecraft("net.minecraftforge:forge:$minecraft_version-$forge_version")
     annotationProcessor("org.spongepowered:mixin:0.8.5:processor")
     implementation("thedarkcolour:kotlinforforge:4.3.0")
 }
@@ -112,30 +133,52 @@ val Project.mixin: MixinExtension
     get() = extensions.getByType()
 
 mixin.run {
-    add(sourceSets.main.get(), "examplemod.mixins.refmap.json")
-    config("examplemod.mixins.json")
+    add(sourceSets.main.get(), "${mod_id}.mixins.refmap.json")
+    config("${mod_id}.mixins.json")
     val debug = this.debug as DynamicProperties
     debug.setProperty("verbose", true)
     debug.setProperty("export", true)
     setDebug(debug)
 }
 
+tasks.named("processResources", ProcessResources::class).configure {
+    val replaceProperties: Map<String, String> = mutableMapOf(
+        "minecraft_version" to minecraft_version,
+        "minecraft_version_range" to minecraft_version_range,
+        "forge_version" to forge_version,
+        "forge_version_range" to forge_version_range,
+        "loader_version_range" to loader_version_range,
+        "mod_id" to mod_id,
+        "mod_name" to mod_name,
+        "mod_license" to mod_license,
+        "mod_version" to mod_version,
+        "mod_authors" to mod_authors,
+        "mod_description" to mod_description
+    )
+
+    inputs.properties(replaceProperties)
+
+    filesMatching(listOf("META-INF/mods.toml", "pack.mcmeta")) {
+        expand(replaceProperties)
+    }
+}
+
 tasks.withType<Jar> {
-    archiveBaseName.set(modid)
+    archiveBaseName.set(mod_id)
     manifest {
         attributes(
             mapOf(
-                "Specification-Title" to modid,
-                "Specification-Vendor" to vendor,
+                "Specification-Title" to mod_id,
+                "Specification-Vendor" to mod_authors,
                 "Specification-Version" to "1",
                 "Implementation-Title" to project.name,
                 "Implementation-Version" to project.version.toString(),
-                "Implementation-Vendor" to vendor,
+                "Implementation-Vendor" to mod_authors,
                 "Implementation-Timestamp" to SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").format(Date())
             )
         )
     }
-    finalizedBy("reobfJar")
+    //finalizedBy("reobfJar")
 }
 
 publishing {
@@ -157,6 +200,6 @@ tasks.withType<JavaCompile>().configureEach {
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = jvm_version
     }
 }

@@ -1,9 +1,9 @@
 @file:Suppress("HasPlatformType", "unused")
 
-package com.pleahmacaka.examplemod.init
+package com.example.examplemod.init
 
-import com.pleahmacaka.examplemod.MODID
-import com.pleahmacaka.examplemod.blocks.ExampleBlock
+import com.example.examplemod.MODID
+import com.example.examplemod.blocks.ExampleBlock
 import net.minecraft.world.level.block.Block
 import net.minecraftforge.eventbus.api.IEventBus
 import net.minecraftforge.registries.DeferredRegister

@@ -1,8 +1,8 @@
-package com.pleahmacaka.examplemod.creativetabs
+package com.example.examplemod.creativetabs
 
-import com.pleahmacaka.examplemod.MODID
-import com.pleahmacaka.examplemod.blocks.ExampleBlock
-import com.pleahmacaka.examplemod.items.SadObsidianMaker
+import com.example.examplemod.MODID
+import com.example.examplemod.blocks.ExampleBlock
+import com.example.examplemod.items.SadObsidianMaker
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.ItemStack
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent

@@ -1,9 +1,9 @@
 @file:Suppress("HasPlatformType", "unused")
 
-package com.pleahmacaka.examplemod.init
+package com.example.examplemod.init
 
-import com.pleahmacaka.examplemod.MODID
-import com.pleahmacaka.examplemod.items.SadObsidianMaker
+import com.example.examplemod.MODID
+import com.example.examplemod.items.SadObsidianMaker
 import net.minecraft.world.item.Item
 import net.minecraftforge.eventbus.api.IEventBus
 import net.minecraftforge.registries.DeferredRegister

@@ -1,9 +1,9 @@
 @file:Suppress("unused", "HasPlatformType")
 
-package com.pleahmacaka.examplemod.init
+package com.example.examplemod.init
 
-import com.pleahmacaka.examplemod.MODID
-import com.pleahmacaka.examplemod.blocks.ExampleBlock
+import com.example.examplemod.MODID
+import com.example.examplemod.blocks.ExampleBlock
 import net.minecraft.world.item.BlockItem
 import net.minecraft.world.item.Item
 import net.minecraftforge.eventbus.api.IEventBus
@@ -23,5 +23,4 @@ object BlockItemRegistry {
 
     val EXAMPLE_BLOCK: BlockItem
             by BLOCK_ITEMS.registerObject("example_block") { BlockItem(ExampleBlock, Item.Properties()) }
-
 }

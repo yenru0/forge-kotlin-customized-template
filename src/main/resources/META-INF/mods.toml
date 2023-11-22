@@ -3,25 +3,25 @@ loaderVersion = "[4,)"
 license = "MIT"
 
 [[mods]]
-modId = "examplemod"
-version = "${file.jarVersion}"
-displayName = "examplemod"
-logoFile = "examplemod.png"
-authors = "PleahMaCaka"
+modId = "${mod_id}"
+version = "${mod_version}"
+displayName = "${mod_name}"
+logoFile = "../${mod_name}.png"
+authors = "${mod_authors}"
 description = '''
-Forge Template with ParchmentMC, KotlinForForge and Mixin
+${mod_description}
 '''
 
-[[dependencies.examplemod]]
+[[dependencies.${mod_id}]]
 modId = "forge"
 mandatory = true
-versionRange = "[46,)"
+versionRange = "${forge_version_range}"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.examplemod]]
+[[dependencies.${mod_id}]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.20,1.21)"
+versionRange = "${minecraft_version_range}"
 ordering = "NONE"
 side = "BOTH"
