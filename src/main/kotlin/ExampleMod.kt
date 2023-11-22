@@ -1,9 +1,9 @@
-package com.pleahmacaka.examplemod
+package com.example.examplemod
 
-import com.pleahmacaka.examplemod.init.BlockItemRegistry
-import com.pleahmacaka.examplemod.init.BlockRegistry
-import com.pleahmacaka.examplemod.init.ItemRegistry
-import com.pleahmacaka.examplemod.keybind.KeyBindHandler.registerKeybindings
+import com.example.examplemod.init.BlockItemRegistry
+import com.example.examplemod.init.BlockRegistry
+import com.example.examplemod.init.ItemRegistry
+import com.example.examplemod.keybind.KeyBindHandler.registerKeybindings
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
 import org.apache.logging.log4j.Level
