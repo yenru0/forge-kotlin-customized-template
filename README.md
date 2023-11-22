@@ -16,6 +16,10 @@
 | <div align="center"> HotSwap in debug mode [LEARN MORE](https://forge.gemwire.uk/wiki/Hotswap)</div>                                     | <div align="center">Useful References</div>                                                                                                                                                                                                                                                                                                                      |
 | <div align="center"><img width=350 src="https://cdn.discordapp.com/attachments/1072301775606001744/1088424637542703205/image.png"></div> | <div align="center"><a href="https://forge.gemwire.uk/wiki/Main_Page"><img width=260 src="https://cdn.discordapp.com/attachments/1072301775606001744/1088426016495644752/image.png"></a><br/><a href="https://docs.minecraftforge.net/en/1.19.x/"><img src="https://cdn.discordapp.com/attachments/1072301775606001744/1088426119876845578/image.png"></a></div> |
 
+* **upgraded features**
+  * fill [gradle.properties](gradle.properties) to set properties
+
+
 ## ⚙️ Features ⚙️
 
 - Initialization
